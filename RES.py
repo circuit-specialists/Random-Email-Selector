@@ -4,8 +4,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import simpledialog
 from tkinter import messagebox
-import sys
-import random
+import sys, random, os
 
 class RES:
     def __init__(self):
@@ -14,12 +13,15 @@ class RES:
         emails = self.formatFile(csv_file)
         csv_file.close()
         winner_cap = simpledialog.askinteger("Input", "How many winner selections?", parent=self.root, minvalue=1)
-        winners = ""
+        winners_dispaly = ""
+        winners_write = ""
         for winner in range(0, winner_cap):
-            winners += (str(self.selectWinners(emails)) + "\t\tOut of: " + str(len(emails) + 1) + "\n").rjust(50)
+            winner_temp = str(self.selectWinners(emails))
+            winners_dispaly += (winner_temp + "\t\tOut of: " + str(len(emails) + 1) + "\n").rjust(50)
+            winners_write += (winner_temp + ", " + str(len(emails) + 1) + "\n")
 
-        messagebox.showinfo("Winners", "The winners are:\n\n" + winners)
-        self.saveWinners(winners)
+        messagebox.showinfo("Winners", "The winners are:\n\n" + winners_dispaly)
+        self.saveWinners(file_path, winners_write)
 
     def openDialogWindow(self):
         self.root = tk.Tk()
@@ -46,8 +48,9 @@ class RES:
         emails.remove(winner)
         return winner
 
-    def saveWinners(self, winners):
-        winners_csv_file = open("winners.csv", "w+")
+    def saveWinners(self, file_path, winners):
+        winners_csv_file = open(os.path.basename(file_path)[:-4] + " Winners.csv", "w+")
+        winners_csv_file.write("Email, Pool Size\n")
         winners_csv_file.write(winners)
         winners_csv_file.close()
 
