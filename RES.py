@@ -16,7 +16,7 @@ class RES:
         winner_cap = simpledialog.askinteger("Input", "How many winner selections?", parent=self.root, minvalue=1)
         winners = ""
         for winner in range(0, winner_cap):
-            winners += (str(self.selectWinners(emails)) + "\tOut of: " + str(len(emails)) + "\n").rjust(50)
+            winners += (str(self.selectWinners(emails)) + "\t\tOut of: " + str(len(emails) + 1) + "\n").rjust(50)
 
         messagebox.showinfo("Winners", "The winners are:\n\n" + winners)
         self.saveWinners(winners)
@@ -32,6 +32,7 @@ class RES:
 
     def formatFile(self, file):
         data = []
+        next(file)
         for line in file:
             try:
                 data.append(line[:line.index(',')])
