@@ -11,6 +11,7 @@ class RES:
         file_path = self.openDialogWindow()
         csv_file = self.openCSVFile(file_path)
         emails = self.formatFile(csv_file)
+        emails = list(set([str.lower(x) for x in emails]))
         csv_file.close()
         winner_cap = simpledialog.askinteger("Input", "How many winner selections?", parent=self.root, minvalue=1)
         winners_dispaly = ""
